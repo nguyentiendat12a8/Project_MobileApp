@@ -1,0 +1,7 @@
+{
+  "name": "rental_apartment",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

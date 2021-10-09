@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "rental_apartment",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
