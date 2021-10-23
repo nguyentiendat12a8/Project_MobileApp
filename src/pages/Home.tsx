@@ -32,7 +32,7 @@ const Home: React.FC = () => {
         const r = await getApartmentById(id) as Apartment
         r.stateNotes = stateNotes
         await insertApartment(r)
-        alert(`Notes already done for 1 ${r.creatorName}`)
+        alert(`Notes already done for ${r.creatorName}`)
         setRefreshState(!refreshState)
     }
 
