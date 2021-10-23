@@ -1,0 +1,23 @@
+.cl {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.a{
+    color: aqua;
+}
+
+.checkError {
+  color: red;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.nothingDelele {
+  color:darkorange;
+  text-align: center;
+}
+
+.deleteForm{
+  margin-left: 10px;
+  
+}
