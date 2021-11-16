@@ -1,7 +1,7 @@
 
 import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonInput, IonItem, IonLabel, IonPage, IonRadio, IonRadioGroup, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { deleteApartment, getApartmentById, insertApartment, updateApartment } from '../databaseHandler';
+import { getApartmentById, insertApartment, updateApartment } from '../databaseHandler';
 import { useHistory, useParams } from 'react-router';
 
 import { Apartment } from '../models';
@@ -38,6 +38,7 @@ const Detail: React.FC = () => {
     setCheckName(true)
     if (isPropertyType(propertyType).length == 0 && isBedroom(bedroom).length == 0 &&
       isPrice(price).length == 0 && isName(creatorName).length == 0) {
+      // find and download images from webpath
       const response = await fetch(picture)
       const fileContent = await response.blob()
       const newRoom = {
@@ -45,10 +46,9 @@ const Detail: React.FC = () => {
         notes: notes, creatorName: creatorName, date: date, stateNotes: stateNotes, exist: exist
       }
       await updateApartment(newRoom)
-      alert('done!')
-      history.goBack()
+      alert('Update done!')
     } else {
-      alert('Enter information in the format')
+      alert('Enter information in the format!')
     }
   }
 
@@ -56,7 +56,7 @@ const Detail: React.FC = () => {
     const r = await getApartmentById(Number.parseInt(id)) as Apartment
     r.exist = false
     await insertApartment(r)
-    alert('done')
+    alert('Delete successfully!')
     history.goBack()
   }
 
@@ -102,14 +102,14 @@ const Detail: React.FC = () => {
       <IonContent className='ion-padding'>
         <IonItem>
           <IonLabel position='stacked'><h1>Property type</h1></IonLabel>
-          <IonInput value={propertyType} onIonChange={e => setpropertyType(e.detail.value!)} onBlur={onBlurPropertyType} placeholder='Enter type'></IonInput>
+          <IonInput value={propertyType} onIonChange={e => setpropertyType(e.detail.value!)} onBlur={onBlurPropertyType} placeholder='e.g. flat, house, bungalow'></IonInput>
           {checkPropertyType && isPropertyType(propertyType).length > 0 &&
             <p className='checkError'>{isPropertyType(propertyType)}</p>
           }
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Bedroom</h1></IonLabel>
-          <IonSelect value={bedroom} onIonChange={e => setBedroom(e.detail.value!)} onBlur={onBlurBedroom} placeholder='Select the bedroom type'>
+          <IonSelect value={bedroom} onIonChange={e => setBedroom(e.detail.value!)} onBlur={onBlurBedroom} placeholder='Select bedroom type'>
             <IonSelectOption value='one'>One</IonSelectOption>
             <IonSelectOption value='two'>Two</IonSelectOption>
             <IonSelectOption value='studio'>Studio</IonSelectOption>
@@ -120,18 +120,18 @@ const Detail: React.FC = () => {
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Furniture Types</h1></IonLabel>
-          <IonInput value={furnitureTypes} onIonChange={e => setFurnitureTypes(e.detail.value!)} placeholder='Enter furniture types'></IonInput>
+          <IonInput value={furnitureTypes} onIonChange={e => setFurnitureTypes(e.detail.value!)} placeholder='e.g. furnished, unfurnished, part furnished'></IonInput>
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Monthly rent price</h1></IonLabel>
-          <IonInput value={price} onIonChange={e => setPrice(Number.parseInt(e.detail.value!))} onBlur={onBlurPrice} placeholder='Enter price'></IonInput>
+          <IonInput type='number' value={price} onIonChange={e => setPrice(Number.parseInt(e.detail.value!))} onBlur={onBlurPrice} placeholder='e.g. 1200000'></IonInput>
           {checkPrice && isPrice(price).length > 0 &&
             <p className='checkError'>{isPrice(price)}</p>
           }
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Notes (optional) </h1></IonLabel>
-          <IonInput value={notes} onIonChange={e => setNotes(e.detail.value!)} placeholder='Enter notes'></IonInput>
+          <IonInput value={notes} onIonChange={e => setNotes(e.detail.value!)} placeholder='Enter something'></IonInput>
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Picture</h1></IonLabel>
@@ -144,7 +144,7 @@ const Detail: React.FC = () => {
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Name of the reporter</h1></IonLabel>
-          <IonInput value={creatorName} onIonChange={e => setCreatorName(e.detail.value!)} onBlur={onBlurName} placeholder='Enter name'></IonInput>
+          <IonInput value={creatorName} onIonChange={e => setCreatorName(e.detail.value!)} onBlur={onBlurName} placeholder='e.g. John, Cuong'></IonInput>
           {checkName && isName(creatorName).length > 0 &&
             <p className='checkError'>{isName(creatorName)}</p>
           }

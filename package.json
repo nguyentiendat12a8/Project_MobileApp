@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "3.2.5",
     "@capacitor/app": "1.0.3",
     "@capacitor/camera": "^1.1.2",
     "@capacitor/core": "3.2.4",
@@ -21,7 +22,7 @@
     "@types/react-dom": "^16.9.10",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
-    "idb": "^6.1.4",
+    "idb": "^6.1.5",
     "ionicons": "^5.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

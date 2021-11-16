@@ -1,6 +1,6 @@
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
-
+//take picture handler
 export async function takePicture() {
   try {
     const cameraPhoto = await Camera.getPhoto({

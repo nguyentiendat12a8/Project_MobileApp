@@ -1,10 +1,6 @@
-.cl {
+.homeList {
   margin-top: 8px;
   text-align: center;
-}
-
-.a{
-    color: aqua;
 }
 
 .checkError {
@@ -12,12 +8,17 @@
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.nothingDelele {
+.nothingDelete {
   color:darkorange;
   text-align: center;
 }
 
-.deleteForm{
-  margin-left: 10px;
-  
+
+.title{
+  text-align: center;
+  font-size: 25px;
+}
+
+.confirmMes {
+  font-family: 'Times New Roman', Times, serif;
 }

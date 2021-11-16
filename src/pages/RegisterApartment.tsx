@@ -1,4 +1,4 @@
-import { DatetimeOptions } from '@ionic/core';
+
 import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonInfiniteScroll, IonInput, IonItem, IonLabel, IonPage, IonRadio, IonRadioGroup, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import { useState } from 'react';
 import { getAllApartment, insertApartment } from '../databaseHandler';
@@ -31,15 +31,17 @@ const Register: React.FC = () => {
     setCheckPrice(true)
     setCheckName(true)
     
+    // check condition before adding to database
     if (isPropertyType(propertyType).length == 0 &&  isBedroom(bedroom).length == 0 &&
     isPrice(price).length == 0 && isName(creatorName).length ==0) {
       const allApartment = await getAllApartment()
       for (const aparment of allApartment) {
-        if (aparment.creatorName === creatorName) {
-          if (aparment.propertyType === propertyType && aparment.price === price)
+        if (aparment.creatorName.toUpperCase() === creatorName.toUpperCase()) {
+          if (aparment.propertyType.toUpperCase() === propertyType.toUpperCase() && aparment.price === price)
             return alert('Data already exists')
         }
       }
+      // find and download images from webpath
       const response = await fetch(picture)
       const fileContent = await response.blob()
       const newRoom = {
@@ -72,20 +74,20 @@ const Register: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle><big>Add Apartment</big> </IonTitle>
+          <IonTitle className='title'>Add Apartment</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className='ion-padding'>
         <IonItem>
           <IonLabel position='stacked'><h1>Property type</h1></IonLabel>
-          <IonInput onIonChange={e => setpropertyType(e.detail.value!)} onBlur={onBlurPropertyType} placeholder='Enter type'></IonInput>
+          <IonInput onIonChange={e => setpropertyType(e.detail.value!)} onBlur={onBlurPropertyType} placeholder='e.g. flat, house, bungalow'></IonInput>
           {checkPropertyType && isPropertyType(propertyType).length > 0 &&
             <p className ='checkError'>{isPropertyType(propertyType)}</p>
           }
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Bedroom</h1></IonLabel>
-          <IonSelect onIonChange={e => setBedroom(e.detail.value!)} onBlur={onBlurBedroom} placeholder='Select the bedroom type'>
+          <IonSelect onIonChange={e => setBedroom(e.detail.value!)} onBlur={onBlurBedroom} placeholder='Select bedroom type'>
             <IonSelectOption value='one'>One</IonSelectOption>
             <IonSelectOption value='two'>Two</IonSelectOption>
             <IonSelectOption value='studio'>Studio</IonSelectOption>
@@ -96,18 +98,18 @@ const Register: React.FC = () => {
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Furniture Types</h1></IonLabel>
-          <IonInput onIonChange={e => setFurnitureTypes(e.detail.value!)} placeholder='Enter furniture types'></IonInput>
+          <IonInput onIonChange={e => setFurnitureTypes(e.detail.value!)} placeholder='e.g. furnished, unfurnished, part furnished'></IonInput>
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Monthly rent price</h1></IonLabel>
-          <IonInput onIonChange={e => setPrice(Number.parseInt(e.detail.value!))} onBlur={onBlurPrice} placeholder='Enter price'></IonInput>
+          <IonInput type='number' onIonChange={e => setPrice(Number.parseInt(e.detail.value!))} onBlur={onBlurPrice} placeholder='e.g. 1200000'></IonInput>
           {checkPrice && isPrice(price).length > 0 &&
             <p className ='checkError'>{isPrice(price)}</p>
           }
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Notes (optional)</h1> </IonLabel>
-          <IonInput onIonChange={e => setNotes(e.detail.value!)} placeholder='Enter notes'></IonInput>
+          <IonInput onIonChange={e => setNotes(e.detail.value!)} placeholder='Enter something'></IonInput>
         </IonItem>
         <IonItem>
         <IonLabel position='stacked'><h1>Picture</h1> </IonLabel>
@@ -116,7 +118,7 @@ const Register: React.FC = () => {
         </IonItem>
         <IonItem>
           <IonLabel position='stacked'><h1>Name of the reporter</h1></IonLabel>
-          <IonInput onIonChange={e => setCreatorName(e.detail.value!)} onBlur={onBlurName} placeholder='Enter name'></IonInput>
+          <IonInput onIonChange={e => setCreatorName(e.detail.value!)} onBlur={onBlurName} placeholder='e.g. John, Cuong'></IonInput>
           {checkName && isName(creatorName).length > 0 &&
             <p className ='checkError'>{isName(creatorName)}</p>
           }

@@ -33,11 +33,6 @@ export async function getAllApartment() {
     return db.getAll('apartment')
 }
 
-// export async function updateNotes(currentNotes : any) {
-//     const db = await openDB(DB_NAME,1)
-//     const a = await db.put('apartment',currentNotes) 
-// }
-
 export async function deleteApartment(id: number) {
     const db = await openDB(DB_NAME,1)
     await db.delete('apartment', id)

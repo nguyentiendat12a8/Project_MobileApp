@@ -9,23 +9,21 @@ const Home: React.FC = () => {
 
     const [stateNotes, setStateNotes] = useState('')
     const [allApartment, setAllApartment] = useState<Apartment[]>([]);
-    const [search, setSearch] = useState('')
     const [refreshState, setRefreshState] = useState(false)
 
     async function fetchData() {
         const resultFromDB = await getAllApartment();
-        const a = resultFromDB.filter((e) => {
-            return e.exist == true
-        })
-        setAllApartment(a);
+        const apartmentExist = resultFromDB.filter((e) => e.exist == true)
+        setAllApartment(apartmentExist)
+    }
 
-        if (search.trim()) {
-            var searchData = []
-            searchData = allApartment.filter((e) => {
-                return e.creatorName.toLowerCase().startsWith(search.toLowerCase());
-            })
-            setAllApartment(searchData)
-        }
+    async function searchData(data: string) {
+        const resultFromDB = await getAllApartment();
+        const apartmentExist = resultFromDB.filter((e) => e.exist == true)
+        const searchData = apartmentExist.filter((e) =>
+            e.creatorName.toLowerCase().includes(data.toLowerCase())
+        )
+        setAllApartment(searchData)
     }
 
     async function save(id: number) {
@@ -44,14 +42,14 @@ const Home: React.FC = () => {
     }
 
     useEffect(() => {
-        fetchData();
-    }, [search,refreshState])
+        fetchData()
+    }, [, refreshState])
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Home</IonTitle>
+                    <IonTitle className='title'>Home</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -59,21 +57,22 @@ const Home: React.FC = () => {
                     <IonRefresherContent>
                     </IonRefresherContent>
                 </IonRefresher>
-                <IonSearchbar onIonChange={e => setSearch(e.detail.value!)} placeholder='Search with name'></IonSearchbar>
+                <IonSearchbar onIonChange={e => searchData(e.detail.value!)} placeholder='Search with name'></IonSearchbar>
                 <IonList>
                     {allApartment.map(a =>
                         <>
-                            <IonItem key={a.id} className='cl' routerLink={'/details/' + a.id} lines='none'>
+                            <IonItem key={a.id} className='homeList' routerLink={'/details/' + a.id} lines='none'>
                                 <IonLabel>
                                     <img src={URL.createObjectURL(a.picture)} width='200' height='150' />
+                                    <h2>Price: {a.price} VND</h2>
                                     <h2 >Creator Name: {a.creatorName}</h2>
                                     <h2>State Notes:{a.stateNotes} </h2>
                                 </IonLabel>
                             </IonItem>
                             <IonItem>
                                 <IonInput onIonChange={e => setStateNotes(e.detail.value!)} placeholder='Enter state notes'></IonInput>
-                                <IonButton onClick={() => save(a.id!)} size ='default'>Save Status</IonButton>
-                                {/* you are calling the function. The function returns void. void is not assingable to onClick which expects a function. */}
+                                <IonButton onClick={() => save(a.id!)} size='default'>Save Status</IonButton>
+                                {/* The function returns void. void is not assingable to onClick which expects a function. */}
                             </IonItem>
                         </>
                     )}

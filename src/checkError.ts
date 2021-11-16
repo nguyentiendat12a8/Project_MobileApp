@@ -1,8 +1,11 @@
-
+// handling input errors
 export function isPropertyType(propertyType: any) {
   if (propertyType.trim().length == 0) {
     return 'Fill in the property type information!'
-  } else {
+  } else if (propertyType.trim().length > 20) {
+    return 'attribute type can be entered up to 20 characters'
+  }
+  else {
     return ''
   }
 }
@@ -18,17 +21,21 @@ export function isBedroom(bedroom: any) {
 export function isName(name: any) {
   if (name.trim().length == 0) {
     return 'Fill in the name information!'
-  } else {
+  } else if (name.trim().length < 3) {
+    return 'The length of the name must be at least 3 characters!'
+  }
+  else {
     return ''
   }
 }
 
 export function isPrice(price: number) {
- if ( price > 0){
-  return ''
-  }
-  else if (price < 0){
+  if (price < 0) {
     return 'The price of money cannot be negative!'
+  } else if (price < 100000 && price > 0) {
+    return 'Minimum price is 100000 VND!'
+  }else if(price > 100000){
+    return ''
   }
   else {
     return 'Fill in price information! (cannot be zero)'
